@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "3702190d-a62e-4f7c-9b77-56ee0ebf2d77",
+		"name": "virtualreis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "usage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{urlwithport}}/",
+					"protocol": "http",
+					"host": [
+						"{{urlwithport}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{urlwithport}}/api",
+					"protocol": "http",
+					"host": [
+						"{{urlwithport}}"
+					],
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hotelapi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{urlwithport}}/hotelapi",
+					"protocol": "http",
+					"host": [
+						"{{urlwithport}}"
+					],
+					"path": [
+						"hotelapi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reis",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{urlwithport}}/selectdb?reisid=1",
+					"protocol": "http",
+					"host": [
+						"{{urlwithport}}"
+					],
+					"path": [
+						"selectdb"
+					],
+					"query": [
+						{
+							"key": "reisid",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
