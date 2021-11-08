@@ -70,7 +70,7 @@ jobs:
     # Push the image to IBM Container Registry
     - name: Push the image to ICR
       run: |
-        docker push $REGISTRY_HOSTNAME/$IMAGE_NAME:$TAG
+        docker push $REGISTRY_HOSTNAME/$IMAGE_NAME:"$TAG"
 
     # Deploy the Docker image to the IKS cluster
     - name: Deploy to IKS
