@@ -17,7 +17,7 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  GITHUB_SHA: 1.0
+  TAG: "1.0"
   IBM_CLOUD_API_KEY: ${{ secrets.IBM_CLOUD_API_KEY }}
   IBM_CLOUD_REGION: eu-de 
   ICR_NAMESPACE: ${{ secrets.ICR_NAMESPACE }}
@@ -65,12 +65,12 @@ jobs:
     # Build the Docker image
     - name: Build with Docker
       run: |
-        docker build ./flaskapp --file ./flaskapp/Dockerfile -t "$REGISTRY_HOSTNAME"/"$IMAGE_NAME":"$GITHUB_SHA" 
+        docker build ./flaskapp --file ./flaskapp/Dockerfile -t "$REGISTRY_HOSTNAME"/"$IMAGE_NAME":"$TAG" 
 
     # Push the image to IBM Container Registry
     - name: Push the image to ICR
       run: |
-        docker push $REGISTRY_HOSTNAME/$IMAGE_NAME:$GITHUB_SHA
+        docker push $REGISTRY_HOSTNAME/$IMAGE_NAME:"$TAG"
 
     # Deploy the Docker image to the IKS cluster
     - name: Deploy to IKS
