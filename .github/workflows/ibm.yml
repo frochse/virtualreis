@@ -64,7 +64,7 @@ jobs:
     # Build the Docker image
     - name: Build with Docker
       run: |
-        docker build .  --file ./flaskapp/Dockerfile -t "$REGISTRY_HOSTNAME"/"$IMAGE_NAME":"$GITHUB_SHA" 
+        docker build ./flaskapp --file ./flaskapp/Dockerfile -t "$REGISTRY_HOSTNAME"/"$IMAGE_NAME":"$GITHUB_SHA" 
 
     # Push the image to IBM Container Registry
     - name: Push the image to ICR
