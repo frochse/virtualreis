@@ -6,7 +6,7 @@
 # 2. Setup secrets in your repository by going to settings: Create ICR_NAMESPACE and IBM_CLOUD_API_KEY
 # 3. Change the values for the IBM_CLOUD_REGION, REGISTRY_HOSTNAME, IMAGE_NAME, IKS_CLUSTER, DEPLOYMENT_NAME, and PORT
 
-name: Build SkyApi and Deploy to IKS
+name: Build api and db and Deploy to IKS
 
 on:
   push:
@@ -17,14 +17,16 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_SHA: 1.0
   IBM_CLOUD_API_KEY: ${{ secrets.IBM_CLOUD_API_KEY }}
   IBM_CLOUD_REGION: eu-de 
   ICR_NAMESPACE: ${{ secrets.ICR_NAMESPACE }}
   REGISTRY_HOSTNAME: fochse
-  IMAGE_NAME: virtualreis
+  IMAGE_NAME: virtualapi
   IKS_CLUSTER: bootcamp-2
-  DEPLOYMENT_NAME: virtualreis
+  DEPLOYMENT_NAME1: virtualapi
+  DEPLOYMENT_NAME2: virtualdb
+
   PORT: 5000
   RESOURCE_GROUP: bootcamp
 
@@ -77,9 +79,12 @@ jobs:
         ibmcloud ks cluster ls
         ibmcloud ks cluster config --cluster "${IKS_CLUSTER}"
         kubectl config current-context
-        kubectl create deployment $DEPLOYMENT_NAME --image=$REGISTRY_HOSTNAME/$IMAGE_NAME:$GITHUB_SHA --dry-run -o yaml > deployment.yaml
-        kubectl apply -f deployment.yaml
+        kubectl apply -f ./k8/configmap.yaml
+        kubectl apply -f ./k8/db-deployment.yaml
         kubectl rollout status deployment/$DEPLOYMENT_NAME
-        kubectl create service loadbalancer $DEPLOYMENT_NAME --tcp=80:$PORT --dry-run -o yaml > service.yaml
-        kubectl apply -f service.yaml
+        kubectl apply -f ./k8/db-service.yaml
+        
+        kubectl apply -f ./k8/flaskapp-deployment.yaml
+        kubectl apply -f ./k8/flaskapp-service.yaml
+
         kubectl get services -o wide
