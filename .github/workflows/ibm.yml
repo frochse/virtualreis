@@ -24,7 +24,7 @@ env:
   REGISTRY_HOSTNAME: fochse
   IMAGE_NAME: virtualapi
   IKS_CLUSTER: bootcamp-2
-  DEPLOYMENT_NAME: virtualapi
+  DEPLOYMENT_NAME: flaskapp
 
   PORT: 5000
   RESOURCE_GROUP: bootcamp
