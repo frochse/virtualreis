@@ -11,7 +11,7 @@ name: Build SkyApi and Deploy to IKS
 on:
   push:
     branches:
-      - master
+      - main
       - dev
   workflow_dispatch:
 
