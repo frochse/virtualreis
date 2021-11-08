@@ -1,0 +1,53 @@
+Informatie SkyScanner API (alleen naar vlucht gekeken)
+
+Basis API: 
+http://partners.api.skyscanner.net/apiservices/?apikey=8a0ee99658msh391f0be5aa5d17fp170073jsnc2213f30ccc8& 
+De key is gekopieerd van https://projects.virtualsciences.nl/confluence/pages/viewpage.action?pageId=110494072 bij de reacties. 
+In Postman in te voeren in het Query Params veld, KEY = apikey VALUE = 8a0ee99658msh391f0be5aa5d17fp170073jsnc2213f30ccc8 . Dan kan bij GET de url ingevoerd worden. De reactie is een lege regel, wel line 1 te zien onder Pretty. 
+
+Verschillende opties om achter apiservices/ toe te voegen (zie url):
+- browsequotes (returns de goedkoopste hits)
+- browseroutes (returns de goedkoopste bestemming, gegroepeerd adhv je eerste zoekopdrachten)
+- browsedates (returns de goedkoopste datum, gegroepeerd adhv je ingegeven datum)
+- browsegrid (returns zelfde als browsedates, alleen dan weergeven in 2D array in kalender format)
+- liveprices (returns de live prijzen)
+
+Standaard instellingen voor return resultaat:
+- locales http://partners.api.skyscanner.net/apiservices/reference/v1.0/locales?apikey= > welke taal je resultaat moet zijn
+        {
+            "Code": "nl-NL",
+            "Name": "Nederlands (Nederland)"
+        },
+- countries http://partners.api.skyscanner.net/apiservices/reference/v1.0/countries/nl-NL?apikey= > welke landen incl landcodes er zijn (let op nl-NL uit vorige voorbeeld :) )
+        {
+            "Code": "CZ",
+            "Name": "Tsjechië"
+        },
+- places http://partners.api.skyscanner.net/apiservices/geo/v1.0?apikey= > op volgorde, geneste structuur met countries, city, airport of lengte-breedte graad. Controle van vliegvelden gedaan > https://nl.wikipedia.org/wiki/Lijst_van_vliegvelden_in_Nederland 
+
+Bron: 
+https://skyscanner.github.io/slate/#api-documentation
+
+
+Voorbeeld code runnen: 
+
+def main():
+    result_heen = run(reispersonen="1", land="NL", reisdatumheen="2022-05-29", reisdatumterug="2022-05-30", reisbestemming="LHR", aantalresultaten="10", reisvertrek="AMS")
+    print(result_heen)
+
+    # voorbeeld resultaat heen happyflow:
+    # {vluchtid : [heenvlucht, timestamp vertrek, timestamp aankomst, duur, stops, carrierid, vliegmaatschappij, img vliegmaatschappij, prijs, vertrekplek, aankomstplek],
+    # vluchtid : [heenvlucht, timestamp vertrek, timestamp aankomst, duur, stops, carrierid, vliegmaatschappij, img vliegmaatschappij, prijs, vertrekplek, aankomstplek]}
+    # {'11235-2205301515--32480-0-13554-2205301640': ['Outbound', '2022-05-30T15:15:00', '2022-05-30T16:40:00', 85, 0, 881, 'British Airways', 'https://s1.apideeplink.com/images/airlines/BA.png', 234.99, 'Edinburgh', 'Londen Heathrow'], 
+    # '13554-2206021915--32132-1-11235-2206031240': ['Inbound', '2022-06-02T19:15:00', '2022-06-03T12:40:00', 1045, 1, 1324, 'British Airways', 'https://s1.apideeplink.com/images/airlines/BA.png', 234.99, 'Edinburgh', 'Londen Heathrow']}
+
+    result_terug = run(reispersonen="1", land="GB", reisdatumheen="2022-06-01", reisdatumterug="2022-06-02", reisbestemming="AMS", aantalresultaten="10", reisvertrek="LHR")
+    print(result_terug)
+
+    # voorbeeld resultaat terug happyflow:
+    # {vluchtid : [terugvlucht, timestamp vertrek, timestamp aankomst, duur, stops, carrierid, vliegmaatschappij, img vliegmaatschappij, prijs, vertrekplek, aankomstplek],
+    # vluchtid : [terugvlucht, timestamp vertrek, timestamp aankomst, duur, stops, carrierid, vliegmaatschappij, img vliegmaatschappij, prijs, vertrekplek, aankomstplek]}
+    # {'11235-2205301945--32356-0-9451-2205302215': ['Outbound', '2022-05-30T19:45:00', '2022-05-30T22:15:00', 90, 0, 1050, 'easyJet', 'https://s1.apideeplink.com/images/airlines/EZ.png', 114.59, 'Edinburgh', 'Amsterdam'], 
+    # '9451-2206021310--32356-0-11235-2206021345': ['Inbound', '2022-06-02T13:10:00', '2022-06-02T13:45:00', 95, 0, 1050, 'easyJet', 'https://s1.apideeplink.com/images/airlines/EZ.png', 114.59, 'Edinburgh', 'Amsterdam']} 
+main()
+
