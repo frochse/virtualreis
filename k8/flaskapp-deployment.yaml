@@ -27,7 +27,7 @@ spec:
         - command:
             - python
             - /flaskapp/main.py
-          image: fochse/virtualreis:fc2f286ce9e046d9fab2d9b437b3507f292f7acb
+          image: fochse/virtualapi:1.0
           name: flaskapp
           ports:
             - containerPort: 5000
